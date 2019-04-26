@@ -17,13 +17,14 @@ class Api::V1::ProductsController < ApplicationController
 	  end
 	  
 	def show
-		product= Product.find(params[:id]) 
+		
+		product= Product.find(params[:id])
+		render json: product, status: 200 
 		rescue ActiveRecord::RecordNotFound
-		unless product.nil?
-			render json: product, status: 200 
-		else 
-			render json: {message: "product not found"}, status: 422
+		if product.nil?
+			render json: {errors: "not found"}, status: 422
 		end
+
 	end
 
   	def update
